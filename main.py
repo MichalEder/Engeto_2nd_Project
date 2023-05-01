@@ -13,15 +13,23 @@ def main():
 def hra():
     #konstanty
     hrac = "X"
+    AI = "O"
     oddelovac = "="
     herni_pole = [" "]*9
+    mozny_tah = True
     nova_hra = True
     hra_bezi = True
     pozdrav(oddelovac)
     vykresli_hraci_plochu(herni_pole)
-    #while nova_hra:
-        #while hra_bezi:
-        #vykresli_hraci_plochu(herni_pole)
+    ziskej_tah_hrace(hrac, herni_pole)
+    while nova_hra:
+        while hra_bezi:
+            vykresli_hraci_plochu(herni_pole)
+            while mozny_tah:
+                tah_hrace = ziskej_tah_hrace(hrac, herni_pole)
+                mozny_tah = kontrola_tahu(herni_pole, tah_hrace)
+            zadej_tah_do_pole(tah_hrace, herni_pole)
+            hra_bezi = kontrola_vyhry(herni_pole)
     # while - opakovani hry
         # while - jednotliva hra
     pass
@@ -55,7 +63,7 @@ def pozdrav(oddelovac: str) -> None:
 
 
 
-def vykresli_hraci_plochu(herni_pole):
+def vykresli_hraci_plochu(herni_pole: list) -> None:
 
     hraci_plocha = f"""
        |   |   
@@ -71,12 +79,50 @@ def vykresli_hraci_plochu(herni_pole):
     print(hraci_plocha)
 
 
-def ziskej_tah_hrace():
-    pass
+def ziskej_tah_hrace(hrac: str, herni_pole: list) -> int:
+    tah = ""
+    vhodny_vstup = True
+    while vhodny_vstup:
+        try:
+            tah = int(input("Zadej tah v intervalu 1-9: ")) - 1
+        except ValueError:
+            print("Nevhodný vstup - není číslo, zkus to znovu")
+            continue
+        if tah in range(0, 9):     
+            vhodny_vstup = False
+        else:
+            print("Nevhodný vstup - Není v intervalu 1-9, zkus to znovu")
+            continue
+    return tah
+
+
+def kontrola_tahu(herni_pole, tah_hrace, hrac):
+     return False if herni_pole[tah_hrace] == " " else True
+
+    
+def zadej_tah_do_pole(tah: int, herni_pole: list, hrac: str) -> list:
+    if herni_pole[tah] == " ":
+            print("Tah zadán")
+            herni_pole[tah] = hrac
+    else:
+        print("Toto pole je již obsazeno!")
+
 
 # ziskej tah AI
     #minimax
 
-# kontrola stavu hry
+
+def kontrola_vyhry(herni_pole):
+     for i in range(9):
+        if herni_pole[i] == herni_pole[i+1] == herni_pole[i+2] != " ":
+             return True
+        elif herni_pole[i] == herni_pole[i+3] == herni_pole[i+6] != " ":
+             return True
+        elif herni_pole[i] == herni_pole[i+4] == herni_pole[i+8] != " ":
+             return True
+        elif herni_pole[i] == herni_pole[i+2] == herni_pole[i+4] != " ":
+             return True
+        return False
+     
 
 main()
