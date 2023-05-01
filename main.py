@@ -1,5 +1,5 @@
 '''
-2nd1st_Project_ENGETO: druhý projekt do Engeto Online Python Akademie
+2nd_Project_ENGETO: druhý projekt do Engeto Online Python Akademie
 author: Michal Eder
 email: edermichal.eder@gmail.com
 discord: Michal Eder#2018
