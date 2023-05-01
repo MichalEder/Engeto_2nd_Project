@@ -14,31 +14,33 @@ def hra():
     #konstanty
     hrac = "X"
     AI = "O"
-    oddelovac = "="
+    oddelovac = "="*60
     herni_pole = [" "]*9
     mozny_tah = True
     nova_hra = True
     hra_bezi = True
     pozdrav(oddelovac)
-    vykresli_hraci_plochu(herni_pole)
-    ziskej_tah_hrace(hrac, herni_pole)
+    
     while nova_hra:
         while hra_bezi:
+            mozny_tah = True
             vykresli_hraci_plochu(herni_pole)
             while mozny_tah:
-                tah_hrace = ziskej_tah_hrace(hrac, herni_pole)
+                tah_hrace = ziskej_tah_hrace()
                 mozny_tah = kontrola_tahu(herni_pole, tah_hrace)
-            zadej_tah_do_pole(tah_hrace, herni_pole)
+            zadej_tah_do_pole(tah_hrace, herni_pole, hrac)
             hra_bezi = kontrola_vyhry(herni_pole)
-    # while - opakovani hry
-        # while - jednotliva hra
-    pass
+    spust_dalsi_hru(nova_hra)
+
+
+
+
 
 def pozdrav(oddelovac: str) -> None:
     """Funkce pozdraví hráče a seznámí ho s pravidly hry"""
-    print(oddelovac*60)
+    print(oddelovac)
     print("Vítej u piškvorek!".center(60))
-    print(oddelovac*60)
+    print(oddelovac)
     print("""PRAVIDLA:
     Hráči střídavě doplňují zznačky do hracího pole 3x3.
     Vyhrává hráč, který jako první umístí 3 značky vedle sebe 
@@ -58,7 +60,7 @@ def pozdrav(oddelovac: str) -> None:
      7 | 8 | 9
        |   |  
         """)
-    print(oddelovac*60)
+    print(oddelovac)
     print("Začněme!".center(60))
 
 
@@ -79,8 +81,8 @@ def vykresli_hraci_plochu(herni_pole: list) -> None:
     print(hraci_plocha)
 
 
-def ziskej_tah_hrace(hrac: str, herni_pole: list) -> int:
-    tah = ""
+def ziskej_tah_hrace() -> int:
+    tah = 0
     vhodny_vstup = True
     while vhodny_vstup:
         try:
@@ -92,20 +94,22 @@ def ziskej_tah_hrace(hrac: str, herni_pole: list) -> int:
             vhodny_vstup = False
         else:
             print("Nevhodný vstup - Není v intervalu 1-9, zkus to znovu")
-            continue
+            
     return tah
 
 
-def kontrola_tahu(herni_pole, tah_hrace, hrac):
-     return False if herni_pole[tah_hrace] == " " else True
+def kontrola_tahu(herni_pole, tah_hrace):
+    if herni_pole[tah_hrace] == " ":
+        return False
+    else:
+        print("Toto pole je již obsazeno! Vyber jiné...")
+        return True
 
     
 def zadej_tah_do_pole(tah: int, herni_pole: list, hrac: str) -> list:
-    if herni_pole[tah] == " ":
-            print("Tah zadán")
-            herni_pole[tah] = hrac
-    else:
-        print("Toto pole je již obsazeno!")
+    herni_pole[tah] = hrac
+    print("Tah zadán")
+    return herni_pole
 
 
 # ziskej tah AI
@@ -113,16 +117,29 @@ def zadej_tah_do_pole(tah: int, herni_pole: list, hrac: str) -> list:
 
 
 def kontrola_vyhry(herni_pole):
-     for i in range(9):
-        if herni_pole[i] == herni_pole[i+1] == herni_pole[i+2] != " ":
-             return True
-        elif herni_pole[i] == herni_pole[i+3] == herni_pole[i+6] != " ":
-             return True
-        elif herni_pole[i] == herni_pole[i+4] == herni_pole[i+8] != " ":
-             return True
-        elif herni_pole[i] == herni_pole[i+2] == herni_pole[i+4] != " ":
-             return True
+    if " " not in herni_pole:
+        print("Je to remiza!")
         return False
-     
+    for i in range(9):
+        if herni_pole[i] == herni_pole[i+1] == herni_pole[i+2] != " ":
+            return False
+        elif herni_pole[i] == herni_pole[i+3] == herni_pole[i+6] != " ":
+            return False
+        elif herni_pole[i] == herni_pole[i+4] == herni_pole[i+8] != " ":
+            return False
+        elif herni_pole[i] == herni_pole[i+2] == herni_pole[i+4] != " ":
+            return False
+        return True
 
+
+def spust_dalsi_hru(nova_hra):
+    pokracovat = input("Přeješ si hrát dalěí hru? A/N")
+
+    if pokracovat == "A":
+        return True
+    elif pokracovat == "N":
+        return False
+    else:
+        print("Spatna volba")
+    return nova_hra
 main()
