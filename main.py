@@ -16,7 +16,6 @@ def hra():
     AI = "O"
     oddelovac = "="*60
     herni_pole = [" "]*9
-    mozny_tah = True
     nova_hra = True
     hra_bezi = True
     pozdrav(oddelovac)
@@ -90,20 +89,19 @@ def ziskej_tah_hrace() -> int:
         except ValueError:
             print("Nevhodný vstup - není číslo, zkus to znovu")
             continue
-        if tah in range(0, 9):     
+        if tah in range(9):     
             vhodny_vstup = False
         else:
             print("Nevhodný vstup - Není v intervalu 1-9, zkus to znovu")
-            
+
     return tah
 
 
 def kontrola_tahu(herni_pole, tah_hrace):
     if herni_pole[tah_hrace] == " ":
         return False
-    else:
-        print("Toto pole je již obsazeno! Vyber jiné...")
-        return True
+    print("Toto pole je již obsazeno! Vyber jiné...")
+    return True
 
     
 def zadej_tah_do_pole(tah: int, herni_pole: list, hrac: str) -> list:
@@ -142,4 +140,4 @@ def spust_dalsi_hru(nova_hra):
     else:
         print("Spatna volba")
     return nova_hra
-main()
+#main()
