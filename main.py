@@ -70,7 +70,7 @@ Zadání tahu probíhá pomocí výběru pole dle následujícího schématu:
         """)
     print(oddelovac)
     print("Začněme!".center(60))
-
+    print(oddelovac)
 
 
 def vykresli_hraci_plochu(herni_pole: list) -> None:
@@ -114,6 +114,14 @@ def ziskej_tah_AI(herni_pole: list):
     volna_pole = [i for i,v in enumerate(herni_pole) if v == " "]
     return random.choice(volna_pole)
 
+
+
+
+
+
+def je_remiza(herni_pole):
+    return " " in herni_pole
+        
 
 def vyhrava(herni_pole, hrac):
     vyherni_kombinace = [
